@@ -17,8 +17,8 @@ class Customer
           VALUES ('#{@customer_name}', #{@customer_funds}) 
           RETURNING *;"
 
-    result = SqlRunner.run(sql)
-    puts result
+    customer = SqlRunner.run(sql).first
+    @customer_id = customer["customer_id"].to_i
 
   end
 
