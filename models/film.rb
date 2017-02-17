@@ -12,16 +12,19 @@ class Film
   end
 
   def save()
-
     sql = "INSERT INTO films 
           (film_title, film_price)
           VALUES
           ('#{@film_title}', #{@film_price})
           RETURNING *;"
-
     film = SqlRunner.run(sql).first
     @film_id = film["film_id"].to_i
+  end
 
+  def delete()
+    sql = "DELETE FROM films
+          WHERE film_id = '#{@film_id}';"
+    SqlRunner.run(sql)
   end
 
 end
