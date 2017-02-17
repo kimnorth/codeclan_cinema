@@ -38,7 +38,16 @@ ticket1.save()
 ticket2 = Ticket.new({"film_id" => film1.film_id, "customer_id" => customer2.customer_id})
 ticket2.save()
 
+# Desperate Dan sees Big Momma's House 5
+ticket3 = Ticket.new({"film_id" => film3.film_id, "customer_id" => customer1.customer_id})
+ticket3.save()
 
+# Donald Trump sees Godzilla
+ticket4 = Ticket.new({"film_id" => film2.film_id, "customer_id" => customer3.customer_id})
+ticket4.save()
+
+ticket5 = Ticket.new({"film_id" => film3.film_id, "customer_id" => customer3.customer_id})
+ticket5.save()
 
 binding.pry
 nil

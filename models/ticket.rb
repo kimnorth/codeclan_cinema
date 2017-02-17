@@ -16,6 +16,15 @@ class Ticket
           RETURNING *;"
     results = SqlRunner.run(sql).first
     @ticket_id = results["ticket_id"]
+
+    # Run SQL that updates the customer_funds by deducting the cost of the ticket from the film
+
+    sql_deduct_ticket = "UPDATE customers 
+                        SET (customer_funds) =
+                        (#{@customer_funds} -10);" # not working - currently sets to minus 10
+    SqlRunner.run(sql_deduct_ticket)
+
+
   end
 
   def self.read()
