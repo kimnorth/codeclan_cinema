@@ -19,4 +19,13 @@ class Ticket
     @ticket_id = results["ticket_id"]
   end
 
+  def self.read()
+
+    sql = "SELECT * FROM tickets;"
+    array_of_tickets = SqlRunner.run(sql)
+    ticket_objects = array_of_tickets.map {|ticket| Ticket.new(ticket)}
+    return ticket_objects
+
+  end
+
 end
