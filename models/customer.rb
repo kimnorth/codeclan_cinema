@@ -39,7 +39,7 @@ class Customer
   def update()
     sql = "UPDATE customers SET
     (customer_name, customer_funds) = 
-    ('#{@customer_name}', #{@customer_id})
+    ('#{@customer_name}', #{@customer_funds})
     WHERE customer_id = #{@customer_id};"
     SqlRunner.run(sql)
   end
