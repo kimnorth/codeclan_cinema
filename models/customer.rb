@@ -19,6 +19,13 @@ class Customer
     @customer_id = customer["customer_id"].to_i
   end
 
+  def self.read()
+    sql = "SELECT * FROM customers;"
+    array_of_customers = SqlRunner.run(sql)
+    customer_objects = array_of_customers.map {|customer| Customer.new(customer)}
+    return customer_objects
+  end
+
   def delete()
     sql = "DELETE FROM customers WHERE customer_id = '#{@customer_id}';"
     SqlRunner.run(sql)
