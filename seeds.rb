@@ -3,6 +3,10 @@ require_relative('./models/film.rb')
 require_relative('./models/ticket.rb')
 require('pry-byebug')
 
+Customer.delete_all()
+Film.delete_all()
+Ticket.delete_all()
+
 # CUSTOMERS
 customer1 = Customer.new({"customer_name" => "Desperate Dan", "customer_funds" => 20})
 customer1.save()
@@ -26,8 +30,15 @@ film3.save()
 
 # TICKETS
 
+# Desperate Dan sees The Long Weekend
 ticket1 = Ticket.new({"film_id" => film1.film_id, "customer_id" => customer1.customer_id})
-ticket1.save()
+ticket1.save() 
+
+# Peter Pan sees The Long Weekend
+ticket2 = Ticket.new({"film_id" => film1.film_id, "customer_id" => customer2.customer_id})
+ticket2.save()
+
+
 
 binding.pry
 nil
