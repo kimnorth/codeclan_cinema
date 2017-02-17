@@ -9,7 +9,6 @@ class Ticket
   end
 
   def save()
-
     sql = "INSERT INTO tickets
           (film_id, customer_id)
           VALUES
@@ -20,12 +19,21 @@ class Ticket
   end
 
   def self.read()
-
     sql = "SELECT * FROM tickets;"
     array_of_tickets = SqlRunner.run(sql)
     ticket_objects = array_of_tickets.map {|ticket| Ticket.new(ticket)}
     return ticket_objects
+  end
 
+  def delete()
+    sql = "DELETE FROM tickets
+           WHERE ticket_id = #{@ticket_id};"
+    SqlRunner.run(sql)
+  end
+
+  def self.delete_all()
+    sql = "DELETE FROM tickets;"
+    SqlRunner.run(sql)
   end
 
 end
