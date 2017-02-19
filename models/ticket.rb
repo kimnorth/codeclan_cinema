@@ -22,10 +22,6 @@ class Ticket
 
   def deduct_from_customer_funds
 
-    # We need to update the associated customer entry by removing the price of the associated film.
-
-    # We could create a customer object, deduct the price of the film by searching the database by film id, then use the customer's update method to update the database.
-
     # Price of associated film:
     sql_film_price = "SELECT * FROM films WHERE film_id = #{@film_id};"
     returned_film = SqlRunner.run(sql_film_price).first
@@ -35,8 +31,7 @@ class Ticket
     sql_customer = "SELECT * FROM customers WHERE customer_id = #{@customer_id};"
     returned_customer = SqlRunner.run(sql_customer).first
     customer_object = Customer.new(returned_customer)
-    customer_object
-
+    
     # Deduct film price from customer object's funds
     customer_object.customer_funds -= film_price
 

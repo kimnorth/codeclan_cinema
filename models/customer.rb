@@ -1,4 +1,5 @@
 require_relative('../sql_runner.rb')
+require_relative('./ticket.rb')
 
 class Customer
 
@@ -42,6 +43,14 @@ class Customer
     ('#{@customer_name}', #{@customer_funds})
     WHERE customer_id = #{@customer_id};"
     SqlRunner.run(sql)
+  end
+
+  def tickets()
+    sql = "SELECT * FROM tickets
+           WHERE customer_id = #{@customer_id};"
+    array_of_tickets = SqlRunner.run(sql)
+    ticket_list = array_of_tickets.map {|ticket| Ticket.new(ticket)}
+    return ticket_list
   end
 
 end
