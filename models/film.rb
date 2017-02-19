@@ -8,7 +8,7 @@ class Film
 
   def initialize(options)
     @film_title = options["film_title"]
-    @film_price = options["film_price"]
+    @film_price = options["film_price"]   
     @film_id = options["film_id"] if options["film_id"]
   end
 
@@ -50,12 +50,10 @@ class Film
 
   def customers()
 
-    # find out how many customers are seeing a given film - print length of returned array
-
     # get customer ids from tickets where the film id matches
     tickets_sql = "SELECT customer_id FROM tickets
                    WHERE film_id = #{@film_id};"
-    returned_customer_list = SqlRunner.run(tickets_sql)
+    returned_customer_list = SqlRunner.run(tickets_sql)  
     customer_array = []
     for customer in returned_customer_list
       customer_array.push(customer)
@@ -63,5 +61,7 @@ class Film
     return customer_array.length
 
   end
+
+
 
 end

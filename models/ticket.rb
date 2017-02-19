@@ -1,19 +1,21 @@
 require_relative('../sql_runner.rb')
 require_relative('./customer.rb')
+require_relative('./film.rb')
 
 class Ticket
 
   def initialize(options)
     @ticket_id = options["ticket_id"] if options["ticket_id"]
     @film_id = options["film_id"]
+    @ticket_time = options["ticket_time"]
     @customer_id = options["customer_id"]
   end
 
   def save()
     sql = "INSERT INTO tickets
-          (film_id, customer_id)
+          (film_id, film_time, customer_id)
           VALUES
-          (#{@film_id}, #{@customer_id})
+          (#{@film_id}, '#{@ticket_time}', #{@customer_id})
           RETURNING *;"
     results = SqlRunner.run(sql).first
     @ticket_id = results["ticket_id"]
@@ -56,6 +58,26 @@ class Ticket
   def self.delete_all()
     sql = "DELETE FROM tickets;"
     SqlRunner.run(sql)
+  end
+
+  def self.most_tickets_sold
+
+    # Get back films as objects
+    sql_get_films = "SELECT * FROM films;"
+    array_of_films = SqlRunner.run(sql_get_films)
+    film_objects = array_of_films.map {|film| Film.new(film)}
+
+    # Push film name, tickets sold into an array of hashes
+
+    film_tickets_sold_array = []
+
+    for film_object in film_objects
+      film_tickets_sold_array << {"film_title" => film_object.film_title, "film_id" => film_object.film_id, "tickets_sold" => film_object.customers}
+    end
+
+    film_tickets_sold_array.sort_by! {|film| film["tickets_sold"]}
+    return film_tickets_sold_array.last
+
   end
 
 end
