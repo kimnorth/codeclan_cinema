@@ -1,4 +1,5 @@
 require_relative('../sql_runner.rb')
+require_relative('./customer.rb')
 
 class Ticket
 
@@ -16,14 +17,31 @@ class Ticket
           RETURNING *;"
     results = SqlRunner.run(sql).first
     @ticket_id = results["ticket_id"]
+    deduct_from_customer_funds()
+  end
 
-    # Run SQL that updates the customer_funds by deducting the cost of the ticket from the film
+  def deduct_from_customer_funds
 
-    sql_deduct_ticket = "UPDATE customers 
-                        SET (customer_funds) =
-                        (#{@customer_funds} -10);" # not working - currently sets to minus 10
-    SqlRunner.run(sql_deduct_ticket)
+    # We need to update the associated customer entry by removing the price of the associated film.
 
+    # We could create a customer object, deduct the price of the film by searching the database by film id, then use the customer's update method to update the database.
+
+    # Price of associated film:
+    sql_film_price = "SELECT * FROM films WHERE film_id = #{@film_id};"
+    returned_film = SqlRunner.run(sql_film_price).first
+    film_price = returned_film["film_price"].to_i
+    
+    # Get back a customer object:
+    sql_customer = "SELECT * FROM customers WHERE customer_id = #{@customer_id};"
+    returned_customer = SqlRunner.run(sql_customer).first
+    customer_object = Customer.new(returned_customer)
+    customer_object
+
+    # Deduct film price from customer object's funds
+    customer_object.customer_funds -= film_price
+
+    # Update entry in customer database
+    customer_object.update()
 
   end
 
