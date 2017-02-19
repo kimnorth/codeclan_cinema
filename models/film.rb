@@ -1,4 +1,5 @@
 require_relative('../sql_runner.rb')
+require_relative('./customer.rb')
 
 class Film
 
@@ -45,6 +46,22 @@ class Film
           ('#{@film_title}', #{@film_price})
           WHERE film_id = #{@film_id};"
     SqlRunner.run(sql)
+  end
+
+  def customers()
+
+    # find out how many customers are seeing a given film - print length of returned array
+
+    # get customer ids from tickets where the film id matches
+    tickets_sql = "SELECT customer_id FROM tickets
+                   WHERE film_id = #{@film_id};"
+    returned_customer_list = SqlRunner.run(tickets_sql)
+    customer_array = []
+    for customer in returned_customer_list
+      customer_array.push(customer)
+    end
+    return customer_array.length
+
   end
 
 end
